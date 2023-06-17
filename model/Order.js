@@ -47,6 +47,11 @@ const OrderSchema = new Schema({
     delieveredAt:{
         type: Date,
     },
+    totalPrice:{
+        type: Number,
+        required: true,
+        default: 0.00,
+    },
 },
 {
     timestamps: true,

@@ -9,6 +9,7 @@ import categoryroutes from '../routes/categoryRoute.js';
 import brandroutes from '../routes/brandRoute.js';
 import colorroutes from '../routes/colorRoute.js';
 import reviewroutes from '../routes/reviewRoute.js';
+import orderRoutes from '../routes/orderRoute.js';
 //connect to db
 dbConnect();
 const app = express();
@@ -21,6 +22,7 @@ app.use('/api/v1/categories/',categoryroutes);
 app.use('/api/v1/brands/',brandroutes);
 app.use('/api/v1/colors/',colorroutes);
 app.use('/api/v1/reviews/',reviewroutes);
+app.use('/api/v1/orders/',orderRoutes);
 //err middleware
 app.use(NotfoundHandler);
 app.use(globalErrHandler);
