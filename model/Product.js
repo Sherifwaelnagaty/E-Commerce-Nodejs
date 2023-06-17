@@ -78,7 +78,7 @@ const product = this;
 product?.reviews?.forEach((review)=> {
     totalrating += review?.rating;
 });
-const avgRating =totalrating/product?.reviews?.length;
+const avgRating =Number(totalrating/product?.reviews?.length).toFixed(2);
 return avgRating;    
 });
 
