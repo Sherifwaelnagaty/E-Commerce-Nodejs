@@ -3,7 +3,8 @@ import Brand from "../model/Brand.js";
 
 export const CreateBrandCtrl = asyncHandler(async(req,res)=>{
     const{name,user,images,products}=req.body;
-    const brand= await Brand.findOne({name});
+    const brand= await Brand.findOne({name:name.toLowerCase()});
+    console.log(brand);
     
     if(brand){
     throw new Error("Brand Exists");

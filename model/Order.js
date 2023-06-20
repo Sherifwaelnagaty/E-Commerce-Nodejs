@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 //create random number
-const randomtxt =Math.random().toString(36).substring(7).toLocaleUpperCase();
-const randomnumber=Math.floor(1000+Math.random()*10000);
+const randomTxt = Math.random().toString(36).substring(7).toLocaleUpperCase();
+const randomNumbers = Math.floor(1000 + Math.random() * 90000);
 const Schema = mongoose.Schema;
 const OrderSchema = new Schema({
     user:{
@@ -20,9 +20,8 @@ const OrderSchema = new Schema({
         required: true, 
     },
     OrderNumber: {
-        type: Number,
-        required: true,
-        default: randomnumber+randomtxt,
+        type: String,
+        default: randomTxt + randomNumbers,
     },
     paymentStatus:{
         type: String,
