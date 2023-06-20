@@ -157,7 +157,6 @@ export const UpdateProductCtrl = asyncHandler(async(req,res)=>{
         status:"success",
         message:"Product updated successfully",
         product,
-
     });
 });
 export const DeleteProductCtrl = asyncHandler(async(req,res)=>{
