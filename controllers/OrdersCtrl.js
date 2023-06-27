@@ -1,16 +1,20 @@
 import asyncHandler from 'express-async-handler';
+import Stripe from 'stripe';
+import dotenv from 'dotenv';
+dotenv.config();
 import Order from '../model/Order.js';
 import User from '../model/user.js';
 import Product from '../model/Product.js';
+const stripe = new Stripe(process.env.STRIPE_KEY);
 export const createOrderCrtl= asyncHandler(async(req,res)=>{
     // Get the payload(Shipping address,order items,total price);
     const{shippingAddress,orderItems,totalPrice}=req.body;
     //find the user
     const user=await User.findById(req.userAuthId);
     // check if user has address
-    if(user?.hasShippingAddress){
-        throw new Error("User has no shipping address");
-    }
+    // if(user?.hasShippingAddress){
+    //     throw new Error("User has no shipping address");
+    // }
     //check if order is not empty
     if(orderItems?.length<=0){
         throw new Error("No order items");
@@ -26,6 +30,32 @@ export const createOrderCrtl= asyncHandler(async(req,res)=>{
     user.orders.push(order?._id);
     //send response 
     await user.save();
+    //create stripe session
+    //convert order items to stripe line items
+    const convertedOrders=orderItems.map((order)=>{
+        return{
+            price_data:{
+                currency:"egp",
+                product_data:{
+                    name:order.name,
+                    description:order.description,
+                    // images:[order?.image],
+
+
+                },
+                unit_amount:order.price*100,
+            },
+            mood:"payment",
+            quantity:order.qty,
+        }
+    });
+    const session = await stripe.checkout.sessions.create({
+        line_items:convertedOrders,
+        mode:"payment",
+        success_url:"https://localhost:3000/success",
+        cancel_url:"https://localhost:3000/cancel",
+    });
+    res.send({url:session.url});
     //update totalSold
     const products = await Product.find({_id:{$in:orderItems}});
     orderItems.map(async(order)=>{
@@ -37,11 +67,11 @@ export const createOrderCrtl= asyncHandler(async(req,res)=>{
         }
         await product.save();
     });
-    res.json({
-        status:"success",
-        message:"Order created successfully",
-        order,
-    });
+    // res.json({
+    //     status:"success",
+    //     message:"Order created successfully",
+    //     order,
+    // });
 
 });
 export const getOrderCrtl= asyncHandler(async(req,res)=>{
