@@ -73,14 +73,23 @@ export const createOrderCrtl= asyncHandler(async(req,res)=>{
     // });
 
 });
-export const getOrderCrtl= asyncHandler(async(req,res)=>{
-const order=await User.findById(req.userAuthId);
-if(!order){
-    throw new Error("Order not found");
-}
+export const getOrdersCrtl= asyncHandler(async(req,res)=>{
+const order=await User.find();
+
 res.json({
     status:"success",
-    message:"Order fetched successfully",
+    message:"Orders fetched successfully",
     order,
 });
+});  
+export const getOrderCrtl= asyncHandler(async(req,res)=>{
+    const order=await User.findById(req.params.id);
+    if(!order){
+        throw new Error("Order not found");
+    }
+    res.json({
+        status:"success",
+        message:"Order fetched successfully",
+        order,
+    });
 });  
