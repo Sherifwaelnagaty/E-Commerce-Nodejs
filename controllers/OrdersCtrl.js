@@ -32,41 +32,40 @@ export const createOrderCrtl= asyncHandler(async(req,res)=>{
     await user.save();
     //create stripe session
     //convert order items to stripe line items
-    const convertedOrders=orderItems.map((order)=>{
-        return{
-            price_data:{
-                currency:"egp",
-                product_data:{
-                    name:order.name,
-                    description:order.description,
-                    // images:[order?.image],
-
-
-                },
-                unit_amount:order.price*100,
+    const convertedOrders = orderItems.map((item) => {
+        return {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: item?.name,
+              description: item?.description,
             },
-            mood:"payment",
-            quantity:order.qty,
-        }
+            unit_amount: item?.price * 100,
+          },
+          quantity: item?.qty,
+        };
     });
     const session = await stripe.checkout.sessions.create({
         line_items:convertedOrders,
+        metadata:{
+            orderId:JSON.stringify(order?._id),
+        },
         mode:"payment",
         success_url:"https://localhost:3000/success",
         cancel_url:"https://localhost:3000/cancel",
     });
     res.send({url:session.url});
     //update totalSold
-    const products = await Product.find({_id:{$in:orderItems}});
-    orderItems.map(async(order)=>{
-        const product= products.find((order)=>{
-            return order?._id?.toString()===order?._id?.toString();
-        });
-        if(product){
-            product.totalSold += order?.qty;
-        }
-        await product.save();
-    });
+    // const products = await Product.find({_id:{$in:orderItems}});
+    // orderItems.map(async(order)=>{
+    //     const product= products.find((order)=>{
+    //         return order?._id?.toString()===order?._id?.toString();
+    //     });
+    //     if(product){
+    //         product.totalSold += order?.qty;
+    //     }
+    //     await product.save();
+    // });
     // res.json({
     //     status:"success",
     //     message:"Order created successfully",
@@ -84,4 +83,4 @@ res.json({
     message:"Order fetched successfully",
     order,
 });
-});
+});  
