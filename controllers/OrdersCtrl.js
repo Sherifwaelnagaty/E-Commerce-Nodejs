@@ -93,3 +93,17 @@ export const getOrderCrtl= asyncHandler(async(req,res)=>{
         order,
     });
 });  
+export const updateOrderCrtl= asyncHandler(async(req,res)=>{
+    const id= req.params.id;
+    const order=await Order.findByIdAndUpdate(id,{
+        status:req.body.status,
+    },
+    {
+        new:true
+    });
+    res.json({
+        success:true,
+        message:"Order updated successfully",
+        order,
+    });
+});
