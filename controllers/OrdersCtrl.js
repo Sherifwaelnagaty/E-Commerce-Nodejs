@@ -5,8 +5,20 @@ dotenv.config();
 import Order from '../model/Order.js';
 import User from '../model/user.js';
 import Product from '../model/Product.js';
+import Coupon from '../model/Coupon.js';
 const stripe = new Stripe(process.env.STRIPE_KEY);
 export const createOrderCrtl= asyncHandler(async(req,res)=>{
+    const coupon = req.query;
+    const couponExist = await Coupon.findOne({
+        code:coupon?.toUpperCase(),
+    });
+    if(couponExist?.isExpired){
+        throw new Error("coupon is expired");
+    }
+    if(!couponExist){
+        throw new Error("invalid coupon");
+    }
+    const discount = couponExist?.discount / 100;
     // Get the payload(Shipping address,order items,total price);
     const{shippingAddress,orderItems,totalPrice}=req.body;
     //find the user
@@ -24,7 +36,7 @@ export const createOrderCrtl= asyncHandler(async(req,res)=>{
         user: user?._id,
         shippingAddress,
         orderItems,
-        totalPrice,
+        totalPrice :couponExist? totalPrice - (totalPrice * discount):totalPrice,
     });
     //push order to user
     user.orders.push(order?._id);
