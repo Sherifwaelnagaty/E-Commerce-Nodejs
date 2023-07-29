@@ -30,3 +30,46 @@ export const getAllCouponsCrtl = asyncHandler(async(req,res)=>{
         coupons,
     });
 });
+export const getCouponCrtl = asyncHandler(async(req,res)=>{
+    const coupon = await Coupon.findById(req.params.id);
+    if(!coupon){
+        throw new Error("coupon not found");
+    }
+    res.json({
+        status:"success",
+        msg:"coupon fetched successfully",
+        coupon,
+    });
+});
+export const updateCouponCrtl = asyncHandler(async(req,res)=>{
+    const {code,startDate,endDate,discount} = req.body;
+    const coupon = await Coupon.findByIdAndUpdate(req.params.id,{
+        code: code?.toUpperCase(),
+        startDate,
+        endDate,
+        discount,
+    },
+    {
+        new:true
+    });
+    if(!coupon){
+        throw new Error("coupon not found");
+    }
+    res.json({
+        status:"success",
+        msg:"coupon updated successfully",
+        coupon,
+    });
+});
+export const deleteCouponCrtl = asyncHandler(async(req,res)=>{
+    const coupon = await Coupon.findByIdAndDelete(req.params.id);
+    if(!coupon){
+        throw new Error("coupon not found");
+    }
+    res.json({
+        status:"success",
+        msg:"coupon deleted successfully",
+        coupon,
+    });
+
+});
