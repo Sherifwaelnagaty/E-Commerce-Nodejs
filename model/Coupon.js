@@ -31,6 +31,9 @@ const CouponSchema = new Schema({
 CouponSchema.virtual('isExpired').get(function(){
 return Date.now() > this.endDate;
 });
+CouponSchema.virtual('Daysleft').get(function(){
+    return Math.ceil((this.endDate - Date.now()) / (1000 * 60 * 60 * 24));
+});
 CouponSchema.pre('validate', function(next){
     if(this.startDate > this.endDate){
         next(new Error("start date must be less than end date"));

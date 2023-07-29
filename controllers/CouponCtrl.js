@@ -22,3 +22,11 @@ export const createCouponCrtl = asyncHandler(async (req, res) => {
         coupon,
     });
 }); 
+export const getAllCouponsCrtl = asyncHandler(async(req,res)=>{
+    const coupons = await Coupon.find();
+    res.json({
+        status:"success",
+        msg:"coupons fetched successfully",
+        coupons,
+    });
+});
