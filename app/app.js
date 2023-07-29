@@ -12,6 +12,7 @@ import brandroutes from '../routes/brandRoute.js';
 import colorroutes from '../routes/colorRoute.js';
 import reviewroutes from '../routes/reviewRoute.js';
 import orderRoutes from '../routes/orderRoute.js';
+import couponRoutes from '../routes/couponRoute.js';
 import Order from '../model/Order.js';
 
 //stripe
@@ -29,6 +30,8 @@ app.use('/api/v1/brands/',brandroutes);
 app.use('/api/v1/colors/',colorroutes);
 app.use('/api/v1/reviews/',reviewroutes);
 app.use('/api/v1/orders/',orderRoutes);
+app.use('/api/v1/coupon/',couponRoutes);
+
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
 const endpointSecret = "whsec_4eb8a7d1f545f64e09af1efe7b60d37625578ee50e909fc0310bb4ae5d90f4ff";
