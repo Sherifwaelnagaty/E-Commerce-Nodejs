@@ -30,7 +30,7 @@ app.use('/api/v1/brands/',brandroutes);
 app.use('/api/v1/colors/',colorroutes);
 app.use('/api/v1/reviews/',reviewroutes);
 app.use('/api/v1/orders/',orderRoutes);
-app.use('/api/v1/coupon/',couponRoutes);
+app.use('/api/v1/coupons/',couponRoutes);
 
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
