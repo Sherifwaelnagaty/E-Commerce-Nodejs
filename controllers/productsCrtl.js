@@ -3,6 +3,10 @@ import Product from "../model/Product.js";
 import Brand from "../model/Brand.js";
 import asyncHandler from "express-async-handler";
 export const createProductCtrl = asyncHandler(async(req,res)=>{
+    const convertedImgs= req.files.map((file)=>file.path);
+    if(!convertedImgs){
+        throw new Error("Please upload images");
+    }
     const{ name,description,category,colors,sizes,price,totalQty,brand,reviews }=req.body;
     const productexist =await Product.findOne({ name });
     if(productexist){
@@ -33,6 +37,7 @@ export const createProductCtrl = asyncHandler(async(req,res)=>{
             user:req.userAuthId,
             brand,
             reviews,
+            images:convertedImgs,
         });
         //push the product into category
         categoryFound.products.push(createdProduct._id);

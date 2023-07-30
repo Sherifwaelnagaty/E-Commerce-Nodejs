@@ -1,12 +1,13 @@
 import Express  from "express";
 import { createProductCtrl, getProductsCtrl,getProductCtrl,UpdateProductCtrl, DeleteProductCtrl } from "../controllers/productsCrtl.js";
 import { isLoggedIn } from "../middlewares/isLoggedIn.js";
+import upload from "../config/fileUpload.js";
 isLoggedIn
 //build routes
 const productRoutes = Express.Router();
 
 //create routes
-productRoutes.post("/create",isLoggedIn,createProductCtrl);
+productRoutes.post("/create",isLoggedIn,upload.array("files"),createProductCtrl);
 productRoutes.get("/",getProductsCtrl);
 productRoutes.get("/:id",getProductCtrl);
 productRoutes.put("/:id",isLoggedIn,UpdateProductCtrl);
