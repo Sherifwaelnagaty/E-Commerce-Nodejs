@@ -2,7 +2,6 @@ import Express  from "express";
 import { createProductCtrl, getProductsCtrl,getProductCtrl,UpdateProductCtrl, DeleteProductCtrl } from "../controllers/productsCrtl.js";
 import { isLoggedIn } from "../middlewares/isLoggedIn.js";
 import upload from "../config/fileUpload.js";
-isLoggedIn
 //build routes
 const productRoutes = Express.Router();
 

@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import Category from "../model/Category.js";
 
 export const CreateCategoryCtrl = asyncHandler(async(req,res)=>{
-    const{name,user,images,products}=req.body;
+    const{name}=req.body;
     const category= await Category.findOne({name});
     
     if(category){
@@ -12,6 +12,7 @@ export const CreateCategoryCtrl = asyncHandler(async(req,res)=>{
         const category = await Category.create({
             name:name.toLowerCase(),
             user:req.userAuthId,
+            images: req.file.path,
         });
         res.json({
             status:"success",
