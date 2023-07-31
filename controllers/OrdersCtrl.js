@@ -119,3 +119,47 @@ export const updateOrderCrtl= asyncHandler(async(req,res)=>{
         order,
     });
 });
+export const getSalesSumCrtl= asyncHandler(async(req,res)=>{
+    const sales = await Order.aggregate([
+        {
+            $group:{
+                _id:null,
+                totalSales:{
+                    $sum:"$totalPrice"
+                },
+            }
+        }
+    ]);
+    res.json({
+        status:"success",
+        message:"Sales fetched successfully",
+        sales,
+    });
+});
+export const getMinMaxOrderCrtl = asyncHandler(async(req,res)=>{
+    const sales = await Order.aggregate([
+        {
+            $group:{
+                _id:null,
+                minSales:{
+                    $min:"$totalPrice"
+                },
+                maxSales:{
+                    $max:"$totalPrice"
+                }
+            }
+        }
+    ]);
+});
+export const getAvgOrderCrtl = asyncHandler(async(req,res)=>{
+    const sales = await Order.aggregate([
+        {
+            $group:{
+                _id:null,
+                avgSales:{
+                    $avg:"$totalPrice"
+                }
+            }
+        }
+    ]);
+});
