@@ -1,7 +1,6 @@
 import cloudinaryPackage from 'cloudinary';
 import multer from 'multer';
-import cloudinaryStorage from 'multer-storage-cloudinary';
-import Category from '../model/Category';
+import {CloudinaryStorage} from 'multer-storage-cloudinary';
 const cloudinary = cloudinaryPackage.v2;
 
 //configure cloudinary
@@ -11,7 +10,7 @@ cloudinary.config({
     api_secret : process.env.CLOUDINARY_API_SECRET,
 });
 //create storage engine for multer
-const storage = new cloudinaryStorage({
+const storage = new CloudinaryStorage({
     cloudinary,
     allowedFormats: ["jpg","png","jpeg"],
     params:{
