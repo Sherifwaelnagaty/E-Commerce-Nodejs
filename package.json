@@ -1,8 +1,8 @@
 {
   "name": "node",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "This is the backend Implementation for an E-commerce website using Nodejs",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "server": "nodemon server.js",
